@@ -1,9 +1,9 @@
 $view = new view();
-$view->name = 'repository_report';
+$view->name = 'islandora_report';
 $view->description = '';
 $view->tag = 'default';
 $view->base_table = 'islandora_solr';
-$view->human_name = 'repository_report';
+$view->human_name = 'islandora_report';
 $view->core = 7;
 $view->api_version = '3.0';
 $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
@@ -106,7 +106,11 @@ $datastreams = $row->fedora_datastreams_ms;
 $obj_index = array_search("OBJ", $datastreams);
 
 $checksums = $row->fedora_datastreams_last_checksum_ms;
-$checksum_value = $checksums[$obj_index];
+
+$checksum_value = "not_set";
+if (isset($checksums)) {
+  $checksum_value = $checksums[$obj_index];
+}
 
 print($checksum_value);
 ?>';
@@ -133,21 +137,25 @@ $handler->display->display_options['fields']['php_2']['use_php_setup'] = 0;
 $handler->display->display_options['fields']['php_2']['php_output'] = '<?php
 
 $justifications = $row->fgs_audit_justification_ms;
-$justifications = array_reverse($justifications);
-
-$last_check = "";
-foreach ($justifications as $currentElement) {
-  if (strpos($currentElement, \'fixity check\') !== false) {
-    $last_check = $currentElement;
-    break;
-  }
-}
 
 $checksum_status = "Not Validated";
-if (strpos($last_check, \'checksum validated\') !== false) {
-  $checksum_status = "Validated";
+if (isset($justifications)) {
+  $justifications = array_reverse($justifications);
+
+  $last_check = "";
+  foreach ($justifications as $currentElement) {
+    if (strpos($currentElement, \'fixity check\') !== false) {
+      $last_check = $currentElement;
+      break;
+    }
+  }
+
+  if (strpos($last_check, \'checksum validated\') !== false) {
+    $checksum_status = "Validated";
+  }
 }
 print($checksum_status);
+
 ?>';
 $handler->display->display_options['fields']['php_2']['use_php_click_sortable'] = '0';
 $handler->display->display_options['fields']['php_2']['php_click_sortable'] = '';
@@ -164,7 +172,16 @@ $handler->display->display_options['fields']['php_3']['field'] = 'php';
 $handler->display->display_options['fields']['php_3']['label'] = 'Last_Modified_By';
 $handler->display->display_options['fields']['php_3']['use_php_setup'] = 0;
 $handler->display->display_options['fields']['php_3']['php_output'] = '<?php
-print(end($row->fgs_audit_responsibility_ms));
+
+$aduit_responsibility = $row->fgs_audit_responsibility_ms;
+
+$modified_by = "unkown";
+
+if (isset($aduit_responsibility)) {
+  $modified_by = end($aduit_responsibility);
+}
+print($modified_by);
+
 ?>';
 $handler->display->display_options['fields']['php_3']['use_php_click_sortable'] = '0';
 $handler->display->display_options['fields']['php_3']['php_click_sortable'] = '';
@@ -198,6 +215,12 @@ $handler->display->display_options['fields']['fgs_lastModifiedDate_dt']['table']
 $handler->display->display_options['fields']['fgs_lastModifiedDate_dt']['field'] = 'fgs_lastModifiedDate_dt';
 $handler->display->display_options['fields']['fgs_lastModifiedDate_dt']['link_to_object'] = 0;
 $handler->display->display_options['fields']['fgs_lastModifiedDate_dt']['date_format'] = 'long';
+/* Field: Islandora Solr: fedora_datastreams_num_of_versions_ms */
+$handler->display->display_options['fields']['fedora_datastreams_num_of_versions_ms']['id'] = 'fedora_datastreams_num_of_versions_ms';
+$handler->display->display_options['fields']['fedora_datastreams_num_of_versions_ms']['table'] = 'islandora_solr';
+$handler->display->display_options['fields']['fedora_datastreams_num_of_versions_ms']['field'] = 'fedora_datastreams_num_of_versions_ms';
+$handler->display->display_options['fields']['fedora_datastreams_num_of_versions_ms']['label'] = 'datastream_versions';
+$handler->display->display_options['fields']['fedora_datastreams_num_of_versions_ms']['link_to_object'] = 0;
 /* Sort criterion: Islandora Solr: fgs_lastModifiedDate_dt */
 $handler->display->display_options['sorts']['fgs_lastModifiedDate_dt']['id'] = 'fgs_lastModifiedDate_dt';
 $handler->display->display_options['sorts']['fgs_lastModifiedDate_dt']['table'] = 'islandora_solr';

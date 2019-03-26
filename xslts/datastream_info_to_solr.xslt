@@ -28,6 +28,9 @@
          <xsl:otherwise>not_set</xsl:otherwise>
        </xsl:choose>
     </field>
+    <field name="fedora_datastreams_num_of_versions_ms">
+	<xsl:value-of select="count(foxml:datastreamVersion)"/>
+    </field>
 
     <xsl:call-template name="fedora_datastream_attribute_fields">
       <xsl:with-param name="id" select='@ID'/>
@@ -48,7 +51,6 @@
     <xsl:param name="element" select="."/>
     <xsl:param name="id" select="$element/../@ID"/>
     <xsl:param name="prefix">fedora_datastream_version</xsl:param>
-
 
     <xsl:for-each select="$element/@*">
       <field>
