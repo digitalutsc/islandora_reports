@@ -1,16 +1,16 @@
 $view = new view();
-$view->name = 'bags_report';
+$view->name = 'bags_data';
 $view->description = '';
 $view->tag = 'default';
 $view->base_table = 'islandora_solr';
-$view->human_name = 'bags_report';
+$view->human_name = 'bags_data';
 $view->core = 7;
 $view->api_version = '3.0';
 $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
 
 /* Display: Master */
 $handler = $view->new_display('default', 'Master', 'default');
-$handler->display->display_options['title'] = 'bags_report';
+$handler->display->display_options['title'] = 'bags_data';
 $handler->display->display_options['use_more_always'] = FALSE;
 $handler->display->display_options['access']['type'] = 'none';
 $handler->display->display_options['cache']['type'] = 'none';
@@ -96,16 +96,16 @@ $handler->display->display_options['filters']['mods_physicalDescription_reformat
 
 /* Display: Page */
 $handler = $view->new_display('page', 'Page', 'page');
-$handler->display->display_options['path'] = 'bags-report';
+$handler->display->display_options['path'] = 'bags_data';
 
 /* Display: Data export */
 $handler = $view->new_display('views_data_export', 'Data export', 'views_data_export_1');
 $handler->display->display_options['pager']['type'] = 'some';
 $handler->display->display_options['style_plugin'] = 'views_data_export_csv';
-$handler->display->display_options['path'] = 'bags_report_csv';
-$translatables['bags_report'] = array(
+$handler->display->display_options['path'] = 'bags_data_csv';
+$translatables['bags_data'] = array(
   t('Master'),
-  t('bags_report'),
+  t('bags_data'),
   t('more'),
   t('Apply'),
   t('Reset'),

@@ -13,7 +13,7 @@
 ##################################################
 
 
-# In[117]:
+# In[1]:
 
 
 # -*- coding: utf-8 -*-
@@ -23,13 +23,18 @@ import zipfile
 import tempfile
 import datetime
 import pandas as pd
+import configparser
 
 
-# In[118]:
+# In[4]:
 
 
 ## Specify the folder to the bags here
-path_to_bags_dir = '/home/username/pathto/my_bags'
+config = configparser.ConfigParser()
+config.read('bags_config.ini')
+reports_folder = config['BAG_SCRIPTS']['reports_folder']
+path_to_bags_dir = config['BAG_SCRIPTS']['path_to_bags_dir']
+bags_validation_report = config['BAG_SCRIPTS']['bags_validation_report']
 
 
 # In[119]:
@@ -81,7 +86,7 @@ for path_to_bag in list_of_bags:
 
 # Converts the results into a dataframe and saves to a csv
 df_validation_results = pd.DataFrame(validate_results, columns=('bag_name', 'validation_status', "validated_on"))
-df_validation_results.to_csv("bags_validation_report.csv")
+df_validation_results.to_csv(reports_folder + bags_validation_report)
 df_validation_results
 
 
