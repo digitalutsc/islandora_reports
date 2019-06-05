@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[16]:
+# In[ ]:
 
 
 import pandas as pd
@@ -9,7 +9,7 @@ import datetime as date
 import configparser
 
 
-# In[17]:
+# In[ ]:
 
 
 config = configparser.ConfigParser()
@@ -21,7 +21,7 @@ bags_data_csv = config['BAG_SCRIPTS']['bags_data_csv']
 pids_to_create_bags = config['BAG_SCRIPTS']['pids_to_create_bags']
 
 
-# In[18]:
+# In[ ]:
 
 
 # Load bags data
@@ -32,17 +32,17 @@ del df['LAST_NONPREMIS_AUDIT_DATE']
 df.head(10)
 
 
-# In[19]:
+# In[ ]:
 
 
 # Filter by last bagged date
 last_baged_datetime = date.datetime.strptime(last_baged_date, '%Y-%m-%dT%H:%M:%S.%fZ')
-filter_by_date =  df['last_nonpremis_audit_date'] < last_baged_datetime
+filter_by_date =  df['last_nonpremis_audit_date'] > last_baged_datetime
 df = df[filter_by_date]
 df.head(10)
 
 
-# In[20]:
+# In[ ]:
 
 
 df.to_csv(reports_folder + "/" + pids_to_create_bags, index=False)
