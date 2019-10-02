@@ -5,7 +5,7 @@ scripts to analyze islandora repository content
 * xslt needs to be setup to index necessary fields
 * Islandora solr views are used to generate the necessary raw data needed for the reports.  It can be executed with the following command:
 ```
-drush --user=1 views-data-export "islandora_report" "views_data_export_1" repo_data.csv
+drush @dsu --user=1 views-data-export "islandora_report" "views_data_export_1" repo_data.csv
 ```
 * run the jupyter notebook to generate the reports
 
